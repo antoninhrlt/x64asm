@@ -1,0 +1,2 @@
+mov
+mov	rax
