@@ -3,7 +3,7 @@
 // Copyright (c) 2022 Antonin Hérault
 
 use crate::mnemonic::Mnemonic;
-use crate::operand::Operand;
+use crate::operand::{ Operand, operand_vec_to_string };
 
 /// An Assembly code line but not formatted \
 /// Pretty way to make Assembly code without a string
@@ -11,9 +11,22 @@ use crate::operand::Operand;
 /// NOTE A comment could be put at the end of the line
 pub struct Instruction {
     pub mnemonic: Mnemonic,
-    pub operand1: Operand,
-    pub operand2: Operand,
+    pub operands: Vec<Operand>,
     pub comment: Option<String>,
+}
+
+#[macro_export]
+macro_rules! instruction {
+    ($mnemonic:expr) => {
+        x64asm::instruction::Instruction::new($mnemonic)
+    };
+    ($mnemonic:expr $(, $operands:expr)*) => {
+        x64asm::instruction::Instruction {
+            mnemonic: $mnemonic,
+            operands: vec![ $($operands),* ],
+            comment: None,
+        }
+    }
 }
 
 impl Instruction {
@@ -21,28 +34,7 @@ impl Instruction {
     pub fn new(mnemonic: Mnemonic) -> Self {
         Self {
             mnemonic,
-            operand1: Operand::None,
-            operand2: Operand::None,
-            comment: None,
-        }
-    }
-    
-    /// Constructor for instruction with only 1 operand
-    pub fn new_1(mnemonic: Mnemonic, operand1: Operand) -> Self {
-        Self {
-            mnemonic,
-            operand1,
-            operand2: Operand::None,
-            comment: None,
-        }
-    }
-
-    /// Constructor for instruction with 2 operands
-    pub fn new_2(mnemonic: Mnemonic, operand1: Operand, operand2: Operand) -> Self {
-        Self {
-            mnemonic,
-            operand1,
-            operand2,
+            operands: vec![],
             comment: None,
         }
     }
@@ -59,29 +51,12 @@ impl Instruction {
     pub fn to_string(&self, with_tabs: bool) -> String {
         let mut formatted = String::new();
 
-        // In case it's an instruction with no operands
-        if self.operand1 == Operand::None && self.operand2 == Operand::None {
-            formatted += &format!("{}", self.mnemonic.to_string())
-        }
-
-        // In case it's an instruction with only one operand
-        else if self.operand2 == Operand::None {
-            formatted += &format!(
-                "{} {}", 
-                self.mnemonic.to_string(),
-                self.operand1.to_string(),
-            )
-        }
-
         // In case it's an instruction with two operands
-        else {
-            formatted += &format!(
-                "{} {}, {}", 
-                self.mnemonic.to_string(),
-                self.operand1.to_string(),
-                self.operand2.to_string(),
-            )
-        }
+        formatted += &format!(
+            "{} {}", 
+            self.mnemonic.to_string(),
+            operand_vec_to_string(&self.operands),
+        );
 
         // Replace all spaces by a tabulation
         if with_tabs {

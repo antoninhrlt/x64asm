@@ -12,6 +12,19 @@ pub enum Operand {
     None, // to avoid the `Option` usage
 }
 
+pub fn operand_vec_to_string(vec: &Vec<Operand>) -> String {
+    let mut formatted = String::new();
+
+    for (i, operand) in vec.iter().enumerate() {
+        formatted += &format!("{}", operand.to_string());
+        if i == 0 {
+            formatted += ",";
+        }
+        formatted += " ";
+    }
+    formatted
+}
+
 impl ToString for Operand {
     fn to_string(&self) -> String {
         match &*self {
