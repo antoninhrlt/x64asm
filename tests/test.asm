@@ -1,5 +1,14 @@
-salut: dw 5 
-xor rax, rax 
-mov rax, 289 
-mov rbx, dword [rax] 
-leave 
+	global _start 
+section .text 
+_start: 
+	mov rax, 1 
+	mov rdi, 1 
+	mov rsi, msg 
+	mov rdx, msg_len 
+	syscall 
+	mov rax, 60 
+	mov rdi, 0 
+	syscall 
+section .data 
+msg: db `Hello world` 
+msg_len: equ $ - msg 

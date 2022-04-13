@@ -5,27 +5,38 @@
 use std::path::Path;
 
 use x64asm::{
-    instruction, 
-    reg,
-    indirect_reg,
-    label,
-    ddirective::DefineDirective,
-    formatter::Formatter,
-    instruction::Instruction,
-    label::Label,
-    mnemonic::Mnemonic,
-    operand::Op,
-    register::Register,
+    ddirective, ddirective::DefineDirective::*, 
+    formatter::Formatter, 
+    instruction as i, label,
+    mnemonic::Mnemonic::*, 
+    operand::Op, 
+    reg, register::Register::*, 
+    section, section::Section::*,
 };
 
 fn main() {
-    let mut x64asm_formatter = Formatter::new(false);
+    let mut x64asm_formatter = Formatter::new(false); // false : do not replace spaces by tabulations
+
     x64asm_formatter.add_instructions(&mut vec![
-        instruction!(label!("salut"), Op::DefineDirective(DefineDirective::Dw), Op::Literal(5)),
-        instruction!(Mnemonic::Xor, reg!(Register::Rax), reg!(Register::Rax)),
-        instruction!(Mnemonic::Mov, reg!(Register::Rax), Op::Literal(289)),
-        instruction!(Mnemonic::Mov, reg!(Register::Rbx), Op::Dword, Op::Indirect(Register::Rax)),
-        instruction!(Mnemonic::Leave),
+        i!(Global, Op::Label("_start".to_string())),
+    
+        i!(section!(Text)),
+    
+        i!(label!("_start")),
+        i!(Mov, reg!(Rax), Op::Literal(1)),
+        i!(Mov, reg!(Rdi), Op::Literal(1)),
+        i!(Mov, reg!(Rsi), Op::Label("msg".to_string())),
+        i!(Mov, reg!(Rdx), Op::Label("msg_len".to_string())),
+        i!(Syscall),
+    
+        i!(Mov, reg!(Rax), Op::Literal(60)),
+        i!(Mov, reg!(Rdi), Op::Literal(0)),
+        i!(Syscall),
+    
+        i!(section!(Data)),
+    
+        i!(label!("msg"), ddirective!(Db), Op::String("Hello world".to_string())),
+        i!(label!("msg_len"), ddirective!(Equ), Op::Expression("$ - msg".to_string())),
     ]);
 
     x64asm_formatter.to_file(&Path::new("test.asm")).unwrap();
