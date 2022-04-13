@@ -4,20 +4,29 @@
 
 use std::path::Path;
 
-use x64asm::formatter::Formatter;
-use x64asm::instruction::Instruction;
-use x64asm::mnemonic::Mnemonic;
-use x64asm::operand::Operand;
-
-use x64asm::register::Register::*;
+use x64asm::{
+    instruction, 
+    reg,
+    indirect_reg,
+    label,
+    ddirective::DefineDirective,
+    formatter::Formatter,
+    instruction::Instruction,
+    label::Label,
+    mnemonic::Mnemonic,
+    operand::Op,
+    register::Register,
+};
 
 fn main() {
-    let mut x64asm_formatter = Formatter::new(true);
+    let mut x64asm_formatter = Formatter::new(false);
     x64asm_formatter.add_instructions(&mut vec![
-        Instruction::new(Mnemonic::Mov),
-        Instruction::new_1(Mnemonic::Mov, Operand::Register(Rax))     
+        instruction!(label!("salut"), Op::DefineDirective(DefineDirective::Dw), Op::Literal(5)),
+        instruction!(Mnemonic::Xor, reg!(Register::Rax), reg!(Register::Rax)),
+        instruction!(Mnemonic::Mov, reg!(Register::Rax), Op::Literal(289)),
+        instruction!(Mnemonic::Mov, reg!(Register::Rbx), Op::Dword, Op::Indirect(Register::Rax)),
+        instruction!(Mnemonic::Leave),
     ]);
 
-    x64asm_formatter.to_file(&Path::new(&"test.asm"))
-        .unwrap();
+    x64asm_formatter.to_file(&Path::new("test.asm")).unwrap();
 }
