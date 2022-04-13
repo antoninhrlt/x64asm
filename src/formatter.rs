@@ -7,6 +7,7 @@ use std::fs::File;
 use std::io::prelude::*;
 
 use crate::instruction::Instruction;
+use crate::mnemonic::Mnemonic;
 
 /// Transform `Instruction`s to ASM code as String
 pub struct Formatter {
@@ -40,8 +41,17 @@ impl Formatter {
     pub fn fmt(&self) -> String {
         let mut formatted = String::new();
         for instruction in &self.instructions {
-            formatted += &instruction.to_string(self.with_tabs);
-            formatted += &"\n";
+            let instruction_as_string = instruction.to_string(self.with_tabs);
+
+            formatted += &format!(
+                "{}{}\n", 
+                match &instruction.mnemonic {
+                    Mnemonic::Label(_) => "",
+                    Mnemonic::Section(_) => "",
+                    _ => "\t"
+                }, 
+                instruction_as_string
+            );
         }
 
         formatted

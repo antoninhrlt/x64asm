@@ -9,6 +9,14 @@ pub enum DefineDirective {
     Dd,
     Dq,
     Dt,
+    Equ,
+}
+
+#[macro_export]
+macro_rules! ddirective {
+    ($ddirective:expr) => {
+        x64asm::operand::Operand::DefineDirective($ddirective)
+    }
 }
 
 /// Convert the enum object identifier to a string as lowercase

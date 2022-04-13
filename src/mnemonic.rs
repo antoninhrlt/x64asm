@@ -5,6 +5,7 @@
 use std::string::ToString;
 
 use crate::label::Label;
+use crate::section::Section;
 
 /// Also called as "instruction" (but keep as note that an instruction contains
 /// the mnemonic + operands, it's just a simplified way to say that and I never
@@ -16,6 +17,7 @@ use crate::label::Label;
 #[derive(Debug)]
 pub enum Mnemonic {
     Label(Label),
+    Section(Section),
 
     Mov,
     Push,
@@ -80,7 +82,9 @@ pub enum Mnemonic {
     Cmovbe, Cmovna,
     Call,
     Leave,
-    Ret
+    Ret,
+    Syscall,
+    Global,
 }
 
 /// Convert the enum object identifier to a string as lowercase
@@ -88,6 +92,7 @@ impl ToString for Mnemonic {
     fn to_string(&self) -> String {
         match self {
             Mnemonic::Label(label) => label.to_string(),
+            Mnemonic::Section(section) => section.to_string(),
             _ => format!("{:?}", self).to_lowercase()
         }
     }

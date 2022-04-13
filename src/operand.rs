@@ -16,6 +16,8 @@ pub enum Operand {
     Indirect(Register),
     Literal(i64),
     DefineDirective(DefineDirective),
+    Label(String),
+    String(String),
 
     Expression(String),
 
@@ -41,7 +43,7 @@ pub fn operand_vec_to_string(vec: &Vec<Operand>) -> String {
         if i == 0 {
             match operand {
                 Operand::DefineDirective(_) => is_variable = true,
-                _ => formatted += ",", 
+                _ => if vec.len() != 1 { formatted += "," }, 
             }
         }
         formatted += " ";
@@ -52,24 +54,16 @@ pub fn operand_vec_to_string(vec: &Vec<Operand>) -> String {
 impl ToString for Operand {
     fn to_string(&self) -> String {
         match &*self {
-            Operand::Register(register) => return register.to_string(),
-            Operand::Indirect(register) => return format!("[{}]", register.to_string()),
-            Operand::Literal(value) => return value.to_string(),
-            Operand::DefineDirective(ddirective) => return ddirective.to_string(),
-            
-            Operand::Expression(string) => return string.to_string(),
+            Operand::Register(register) => register.to_string(),
+            Operand::Indirect(register) => format!("[{}]", register.to_string()),
+            Operand::Literal(value) => value.to_string(),
+            Operand::DefineDirective(ddirective) => ddirective.to_string(),
+            Operand::Label(label) => label.to_string(),
+            Operand::String(string) => format!("`{}`", string),
 
-            _ => {},
-        }
+            Operand::Expression(expression) => expression.to_string(),
 
-        match *self {
-            Operand::Byte => "byte",
-            Operand::Word => "word",
-            Operand::Dword => "dword",
-            Operand::Qword => "qowrd",
-            Operand::None => "", // should never happens
-            _ => panic!(), // already covered, panic will never happen
+            _ => format!("{:?}", *self).to_string(),
         }
-        .to_string()
     }
 }

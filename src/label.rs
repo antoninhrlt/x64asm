@@ -4,19 +4,19 @@
 
 use std::string::ToString;
 
-#[macro_export]
-macro_rules! label {
-    ($label:expr) => {
-        Mnemonic::Label(Label::new($label.to_string()))
-    }
-}
-
 /// Proper way to make a label for a function, a static object, ... with or 
 /// without colon
 #[derive(Debug, Eq, PartialEq)]
 pub struct Label {
     label: String,
     is_colon: bool,
+}
+
+#[macro_export]
+macro_rules! label {
+    ($label:expr) => {
+        x64asm::mnemonic::Mnemonic::Label(x64asm::label::Label::new($label.to_string()))
+    }
 }
 
 impl ToString for Label {
