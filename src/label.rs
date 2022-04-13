@@ -4,6 +4,13 @@
 
 use std::string::ToString;
 
+#[macro_export]
+macro_rules! label {
+    ($label:expr) => {
+        Mnemonic::Label(Label::new($label.to_string()))
+    }
+}
+
 /// Proper way to make a label for a function, a static object, ... with or 
 /// without colon
 #[derive(Debug, Eq, PartialEq)]

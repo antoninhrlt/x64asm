@@ -2,6 +2,7 @@
 // Under the MIT License
 // Copyright (c) 2022 Antonin Hérault
 
+pub mod ddirective;
 pub mod formatter;
 pub mod instruction;
 pub mod label;

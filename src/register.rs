@@ -4,6 +4,20 @@
 
 pub type Reg = Register;
 
+#[macro_export]
+macro_rules! reg {
+    ($register:expr) => {
+        x64asm::operand::Operand::Register($register)
+    }
+}
+
+#[macro_export]
+macro_rules! indirect_reg {
+    ($register:expr) => {
+        x64asm::operand::Operand::Indirect($register)
+    }
+}
+
 /// All registers available for x64 architecture (8 to 64 bits registers)
 #[derive(Debug, PartialEq, Eq)]
 pub enum Register {
