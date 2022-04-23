@@ -79,3 +79,6 @@ section .data
 msg: db `Hello world` 
 msg_len: equ $ - msg 
 ```
+
+## Notes
+**Inspired by** https://github.com/GregoryComer/rust-x86asm
