@@ -63,7 +63,7 @@ impl ToString for Operand {
 
             Operand::Expression(expression) => expression.to_string(),
 
-            _ => format!("{:?}", *self).to_string(),
+            _ => format!("{:?}", *self).to_lowercase().to_string(),
         }
     }
 }
