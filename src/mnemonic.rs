@@ -18,6 +18,7 @@ use crate::section::Section;
 pub enum Mnemonic {
     Label(Label),
     Section(Section),
+    Expression(String),
 
     Mov,
     Push,
@@ -93,6 +94,7 @@ impl ToString for Mnemonic {
         match self {
             Mnemonic::Label(label) => label.to_string(),
             Mnemonic::Section(section) => section.to_string(),
+            Mnemonic::Expression(string) => string.to_string(),
             _ => format!("{:?}", self).to_lowercase()
         }
     }
