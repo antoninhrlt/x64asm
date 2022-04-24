@@ -57,10 +57,18 @@ impl Formatter {
         formatted
     }
 
+    pub fn reset(&mut self) {
+        self.instructions = vec!();
+    }
+
+    pub fn to_stream(&self, stream: &mut File) -> Result<(), std::io::Error> {
+        stream.write_all(self.fmt().as_bytes())
+    }
+
     /// Push the formatted content into a file and erase the content before
     pub fn to_file(&self, path: &Path) -> Result<(), std::io::Error> {
         let mut stream = File::create(path)?;
-        stream.write_all(self.fmt().as_bytes())
+        self.to_stream(&mut stream)
     }
 
     /// Append the formatted content to the file's content
