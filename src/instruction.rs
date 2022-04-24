@@ -9,6 +9,7 @@ use crate::operand::{ Operand, operand_vec_to_string };
 /// Pretty way to make Assembly code without a string
 ///
 /// NOTE A comment could be put at the end of the line
+#[derive(Clone)]
 pub struct Instruction {
     pub mnemonic: Mnemonic,
     pub operands: Vec<Operand>,

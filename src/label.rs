@@ -6,7 +6,7 @@ use std::string::ToString;
 
 /// Proper way to make a label for a function, a static object, ... with or 
 /// without colon
-#[derive(Debug, Eq, PartialEq)]
+#[derive(Debug, Clone, Eq, PartialEq)]
 pub struct Label {
     label: String,
     is_colon: bool,

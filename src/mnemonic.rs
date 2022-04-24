@@ -14,7 +14,7 @@ use crate::section::Section;
 /// by operands in the common situations
 ///
 /// Complete list here : https://cs.brown.edu/courses/cs033/docs/guides/x64_cheatsheet.pdf
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum Mnemonic {
     Label(Label),
     Section(Section),

@@ -9,7 +9,7 @@ use crate::{
 
 pub type Op = Operand;
 
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Operand {
     /// Think to use `use x64asm::register::Register::*;`
     Register(Register),

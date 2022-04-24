@@ -2,7 +2,7 @@
 // Under the MIT License
 // Copyright (c) 2022 Antonin Hérault
 
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub enum DefineDirective {
     Db,
     Dw,

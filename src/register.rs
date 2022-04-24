@@ -19,7 +19,7 @@ macro_rules! indirect_reg {
 }
 
 /// All registers available for x64 architecture (8 to 64 bits registers)
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Register {
     // 64 bits
     Rax,
