@@ -16,8 +16,10 @@ f.to_file(&Path::new("output.asm")).unwrap();
 In your "Cargo.toml" file :
 ```toml
 [dependencies]
-x64asm = { git = "https://github.com/antoninhrlt/x64asm" }
+x64asm = "*"
 ```
+
+Check the current version on [crates.io](https://crates.io/crates/x64asm)
 
 ## Example
 ```rust      
