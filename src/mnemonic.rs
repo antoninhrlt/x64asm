@@ -86,6 +86,7 @@ pub enum Mnemonic {
     Ret,
     Syscall,
     Global,
+    Extern,
 }
 
 /// Convert the enum object identifier to a string as lowercase
