@@ -76,4 +76,8 @@ impl Formatter {
         let mut stream = File::options().append(true).open(path)?;
         stream.write_all(self.fmt().as_bytes())
     }
+
+    pub fn instructions(&mut self) -> &mut Vec<Instruction> {
+        &mut self.instructions
+    }
 }
