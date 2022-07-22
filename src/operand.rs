@@ -46,7 +46,9 @@ pub fn operand_vec_to_string(vec: &Vec<Operand>) -> String {
                 _ => if vec.len() != 1 { formatted += "," }, 
             }
         }
-        formatted += " ";
+        if operand.to_string() != String::new() { 
+            formatted += " ";
+        }
     }
     formatted
 }
@@ -62,6 +64,8 @@ impl ToString for Operand {
             Operand::String(string) => format!("`{}`", string),
 
             Operand::Expression(expression) => expression.to_string(),
+            
+            Operand::None => "".to_string(),
 
             _ => format!("{:?}", *self).to_lowercase().to_string(),
         }
