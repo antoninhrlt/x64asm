@@ -6,7 +6,7 @@ repository = "https://github.com/antoninhrlt/x64asm/"
 readme = "README.md"
 keywords = ["assembly", "asm", "x64", "x86_64", "library"]
 license = "MIT"
-version = "0.1.4"
+version = "0.1.5"
 edition = "2021"
 
 [dependencies]
