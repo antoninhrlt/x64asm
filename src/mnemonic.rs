@@ -29,6 +29,7 @@ pub enum Mnemonic {
     Inc,
     Neg,
     Not,
+    Lea,
     Leaq,
     Add,
     Sub,
