@@ -47,6 +47,7 @@ pub enum Mnemonic {
     Idivq,
     Div,
     Divq,
+    Idiv,
     Cmp,
     Test,
     Sete, Setz,
