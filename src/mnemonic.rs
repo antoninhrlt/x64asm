@@ -21,6 +21,8 @@ pub enum Mnemonic {
     Expression(String),
 
     Mov,
+    Movzx,
+    Movsx,
     Push,
     Pop,
     Cwtl,
