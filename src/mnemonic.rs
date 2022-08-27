@@ -55,7 +55,6 @@ pub enum Mnemonic {
     Sete, 
     Setz,
     Setl,
-    Seta,
     Setne, 
     Setnz,
     Sets, 
@@ -72,7 +71,7 @@ pub enum Mnemonic {
     Setnae,
     Setbe, 
     Setna,
-    Setle
+    Setle,
     Jmp,
     Je, Jz,
     Jne, Jnz,
