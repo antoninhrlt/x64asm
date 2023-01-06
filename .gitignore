@@ -1,2 +1,2 @@
-build/
-Cargo.lock
+/target
+/Cargo.lock
