@@ -1,24 +1,24 @@
 // This file is part of "x64asm"
 // Under the MIT License
-// Copyright (c) 2022 Antonin Hérault
+// Copyright (c) 2023 Antonin Hérault
 
-pub type Reg = Register;
-
+/// Creates an `Operand::Register`.
 #[macro_export]
-macro_rules! reg {
+macro_rules! register {
     ($register:expr) => {
-        x64asm::operand::Operand::Register($register)
+        instruction::Operand::Register($register)
     }
 }
 
+/// Creates an `Operand::Indirect`.
 #[macro_export]
-macro_rules! indirect_reg {
+macro_rules! indirect_register {
     ($register:expr) => {
-        x64asm::operand::Operand::Indirect($register)
+        instruction::Operand::Indirect($register)
     }
 }
 
-/// All registers available for x64 architecture (8 to 64 bits registers)
+/// 8 to 64 bits registers
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Register {
     // 64 bits
@@ -94,7 +94,7 @@ pub enum Register {
     R15b
 }
 
-/// Convert the enum object identifier to a string as lowercase
+/// Convert the enum object identifier to a string as lowercase.
 impl ToString for Register {
     fn to_string(&self) -> String {
         format!("{:?}", self).to_lowercase()
