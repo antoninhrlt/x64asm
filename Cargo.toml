@@ -4,9 +4,9 @@ description = "Library to write x64 Assembly code from Rust, more properly"
 authors = ["Antonin Hérault <antonherault@gmail.com>"]
 repository = "https://github.com/antoninhrlt/x64asm/"
 readme = "README.md"
-keywords = ["assembly", "asm", "x64", "x86_64", "library"]
+keywords = ["assembly", "asm", "x64", "x86_64", "nasm"]
 license = "MIT"
-version = "0.1.9"
+version = "0.2.0"
 edition = "2021"
 
 [dependencies]
