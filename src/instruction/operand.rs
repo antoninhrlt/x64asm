@@ -53,17 +53,19 @@ impl ToAssembly for Vec<Operand> {
             if is_variable && i != self.len() - 1 {
                 assembly += ",";
             }
+            
             if i == 0 {
                 match operand {
                     Operand::DDirective(_) => is_variable = true,
                     _ => if self.len() != 1 { assembly += "," }, 
                 }
             }
-            if operand.to_assembly(separator) != String::new() { 
-                assembly += " ";
+
+            if i != self.len() - 1 && !operand.to_assembly(separator).is_empty() { 
+                assembly += separator.value();
             }
         }
-
+        
         assembly
     }
 }
