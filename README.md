@@ -3,13 +3,15 @@ Library to write x64 Assembly code from Rust, more properly. Designed for the na
 
 ## How to use
 ```rust                                 
-let mut f = Formatter::new(false); // false : do not replace spaces by tabulations
-
-f.add_instructions(&mut vec![
-    instruction!(/* <mnemonic>, [operands, ...] */),
+let instructions = vec![
+    i!(/* <mnemonic>, [operands, ...] */),
     // other instructions
-]);
-f.to_file(&Path::new("output.asm")).unwrap();
+];
+
+let code = instructions.to_assembly(/*separator (space or tab)*/);
+// Writes to a file
+let mut stream = File::create(&Path::new("output.asm")).unwrap();
+write!(stream, "{}", code).unwrap();
 ```
 
 ## Installation
@@ -23,44 +25,41 @@ Check the current version on [crates.io](https://crates.io/crates/x64asm)
 
 ## Example
 ```rust      
-let mut x64asm_formatter = Formatter::new(false);
-
-x64asm_formatter.add_instructions(&mut vec![
-    i!(Global, Op::Label("_start".to_string())),
+let instructions = vec![
+    i!(Global, oplabel!("_start")),
 
     i!(section!(Text)),
     i!(label!("_start")),
     i!(Mov, reg!(Rax), Op::Literal(1)),
     i!(Mov, reg!(Rdi), Op::Literal(1)),
-    i!(Mov, reg!(Rsi), Op::Label("msg".to_string())),
-    i!(Mov, reg!(Rdx), Op::Label("msg_len".to_string())),
+    i!(Mov, reg!(Rsi), oplabel!("msg")),
+    i!(Mov, reg!(Rdx), oplabel!("msg_len")),
     i!(Syscall),
 
     i!(Mov, reg!(Rax), Op::Literal(60)),
     i!(Mov, reg!(Rdi), Op::Literal(0)),
     i!(Syscall),
-
+    
     i!(section!(Data)),
-    i!(label!("msg"), ddirective!(Db), Op::String("Hello world".to_string())),
-    i!(label!("msg_len"), ddirective!(Equ), Op::Expression("$ - msg".to_string())),
-]);
+    i!(label!("msg"), dd!(Db), opstring!("Hello world")),
+    i!(label!("msg_len"), dd!(Equ), opexpr!("$ - msg")),
+];
 
-x64asm_formatter.to_file(&Path::new("example.asm")).unwrap();
+let code = instructions.to_assembly(Separator::Space);
+let mut stream = File::create(&Path::new("output.asm")).unwrap();
+write!(stream, "{}", code).unwrap();
 ``` 
 
 <details>
 <summary>Imports for the example</summary>
 
 ```rust
-use x64asm::{
-    ddirective, ddirective::DefineDirective::*, 
-    formatter::Formatter, 
-    instruction as i, label,
-    mnemonic::Mnemonic::*, 
-    operand::Op, 
-    reg, register::Register::*, 
-    section, section::Section::*,
-};
+use std::path::Path;
+use std::fs::File;
+use std::io::prelude::*;
+
+use x64asm::convert::{ ToAssembly, Separator };
+use x64asm::macros::*;
 ```
 </details>
 
@@ -83,4 +82,4 @@ msg_len: equ $ - msg
 ```
 
 ## Notes
-**Inspired by** https://github.com/GregoryComer/rust-x86asm
+Originally inspired by [GregoryComer/rust-x86asm](https://github.com/GregoryComer/rust-x86asm).
